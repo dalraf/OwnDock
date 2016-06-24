@@ -1,0 +1,35 @@
+owncloud:
+    image: owncloud
+    ports:
+     - 80:80
+    volumes_from:
+      - owncloud-data
+    links:
+     - mariadb:db
+    hostname: cloud
+    domainname: owncloud.local
+    restart: always
+
+mariadb:
+    image: mariadb
+    hostname: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=MyPassword
+    volumes_from:
+      - mariadb-data
+    restart: always
+
+mariadb-data:
+    image: busybox
+    hostname: mariadb-data
+    command: /bin/sh -c "/bin/chown -R 999 /var/lib/mysql"
+    volumes:
+      - /var/lib/mysql
+
+owncloud-data:
+    image: busybox
+    hostname: owncloud-data
+    command: /bin/sh -c "/bin/chown -R 33 /var/www/html/data && /bin/chown -R 33 /var/www/html/config"
+    volumes:
+      - /var/www/html/data
+      - /var/www/html/config
