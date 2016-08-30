@@ -1,7 +1,7 @@
 owncloud:
     image: owncloud
     ports:
-     - 80:80
+     - 8080:80
     volumes_from:
       - owncloud-data
     links:
@@ -14,7 +14,7 @@ mariadb:
     image: mariadb
     hostname: mariadb
     environment:
-      - MYSQL_ROOT_PASSWORD=MyPassword
+      - MYSQL_ROOT_PASSWORD=password
     volumes_from:
       - mariadb-data
     restart: always
