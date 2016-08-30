@@ -36,12 +36,24 @@ owncloud-data:
       - /var/www/html/data
       - /var/www/html/config
 
+nginx-letsencript
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    hostname: nginx-certs
+    volumes:
+      - /var/www/html/data
+      - /var/www/html/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - nginx-proxy
+      - nginx-certs
+
 nginx-certs:
     image: alpine
     hostname: nginx-certs
-    command: /bin/sh -c "apk update && apk add openssl && /usr/bin/openssl genrsa -out ${CERTDIR}/${KEY_NAME}.key 1024 && /usr/bin/openssl req  -new -newkey rsa:4096 -days 365 -nodes -subj \"/C=/ST=/L=/O=/CN=${COMMON_NAME}\" -keyout ${CERTDIR}/${KEY_NAME}.key -out ${CERTDIR}/${KEY_NAME}.csr  && /usr/bin/openssl x509 -req -days 365 -in ${CERTDIR}/${KEY_NAME}.csr -signkey ${CERTDIR}/${KEY_NAME}.key -out ${CERTDIR}/${KEY_NAME}.crt"
     volumes:
       - ${CERTDIR}
+#    command: /bin/sh -c "apk update && apk add openssl && /usr/bin/openssl genrsa -out ${CERTDIR}/${KEY_NAME}.key 1024 && /usr/bin/openssl req  -new -newkey rsa:4096 -days 365 -nodes -subj \"/C=/ST=/L=/O=/CN=${COMMON_NAME}\" -keyout ${CERTDIR}/${KEY_NAME}.key -out ${CERTDIR}/${KEY_NAME}.csr  && /usr/bin/openssl x509 -req -days 365 -in ${CERTDIR}/${KEY_NAME}.csr -signkey ${CERTDIR}/${KEY_NAME}.key -out ${CERTDIR}/${KEY_NAME}.crt"
+
 
 nginx-proxy:
     image: jwilder/nginx-proxy
@@ -50,5 +62,8 @@ nginx-proxy:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
     volumes_from:
       - nginx-certs
+    restart: always
