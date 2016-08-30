@@ -36,7 +36,7 @@ owncloud-data:
       - /var/www/html/data
       - /var/www/html/config
 
-nginx-letsencript
+nginx-letsencript:
     image: jrcs/letsencrypt-nginx-proxy-companion
     hostname: nginx-certs
     volumes:
