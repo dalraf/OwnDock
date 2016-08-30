@@ -41,7 +41,8 @@ nginx-certs:
     hostname: nginx-certs
     volumes:
       - ${CERTDIR}
-    command: /bin/true
+      - /etc/nginx/vhost.d
+    command: /bin/sh -c "{ echo "server_tokens off;"; echo "client_max_body_size 100m;"; }" > /etc/nginx/vhost.d/${KEY_NAME}
 #    command: /bin/sh -c "apk update && apk add openssl && /usr/bin/openssl genrsa -out ${CERTDIR}/${KEY_NAME}.key 1024 && /usr/bin/openssl req  -new -newkey rsa:4096 -days 365 -nodes -subj \"/C=/ST=/L=/O=/CN=${COMMON_NAME}\" -keyout ${CERTDIR}/${KEY_NAME}.key -out ${CERTDIR}/${KEY_NAME}.csr  && /usr/bin/openssl x509 -req -days 365 -in ${CERTDIR}/${KEY_NAME}.csr -signkey ${CERTDIR}/${KEY_NAME}.key -out ${CERTDIR}/${KEY_NAME}.crt"
 
 
@@ -53,7 +54,6 @@ nginx-proxy:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /etc/nginx/vhost.d
       - /usr/share/nginx/html
     volumes_from:
       - nginx-certs
