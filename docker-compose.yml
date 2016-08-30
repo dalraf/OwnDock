@@ -46,7 +46,6 @@ nginx-certs:
 
 nginx-proxy:
     image: jwilder/nginx-proxy
-    container_name: nginx-proxy
     ports:
       - "80:80"
       - "443:443"
