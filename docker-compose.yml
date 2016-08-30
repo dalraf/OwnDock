@@ -12,7 +12,7 @@ owncloud:
     domainname: owncloud.local
     restart: always
     environment:
-      - VIRTUAL_HOST=owncloud.local
+      - VIRTUAL_HOST=${KEY_NAME}
 
 mariadb:
     image: mariadb
