@@ -44,3 +44,4 @@ nginx-proxy:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /path/to/certs:/etc/nginx/certs
