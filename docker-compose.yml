@@ -36,7 +36,7 @@ owncloud-data:
       - /var/www/html/data
       - /var/www/html/config
 
-nginx-certs
+nginx-certs:
     image: centurylink/openssl
     environment:
       - COMMON_NAME=owncloud.local
