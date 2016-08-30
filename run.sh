@@ -4,4 +4,4 @@
 set -a
 source variaveis.env
 cat docker-compose.mdl | envsubst > docker-compose.yml
-docker-compose  -p "prjowncloud" up -d
+#docker-compose  -p "prjowncloud" up -d
