@@ -36,17 +36,6 @@ owncloud-data:
       - /var/www/html/data
       - /var/www/html/config
 
-nginx-letsencript:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    hostname: nginx-certs
-    volumes:
-      - /var/www/html/data
-      - /var/www/html/config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    volumes_from:
-      - nginx-proxy
-      - nginx-certs
-
 nginx-certs:
     image: alpine
     hostname: nginx-certs
@@ -68,3 +57,14 @@ nginx-proxy:
     volumes_from:
       - nginx-certs
     restart: always
+
+nginx-letsencript:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    hostname: nginx-certs
+    volumes:
+      - /var/www/html/data
+      - /var/www/html/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - nginx-proxy
+      - nginx-certs
