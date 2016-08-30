@@ -1,3 +1,5 @@
+env_file: variaveis.env
+
 owncloud:
     image: owncloud
     ports:
@@ -39,12 +41,12 @@ owncloud-data:
 nginx-certs:
     image: alpine
     hostname: nginx-certs
-    command: apk-install openssl ; /usr/bin/openssl genrsa -out /etc/nginx/certs/owncloud.local.key 1024 && \
-    /usr/bin/openssl req  -new -newkey rsa:4096 -days 365 -nodes -subj "/C=/ST=/L=/O=/CN=OwnCloud" -keyout /etc/nginx/certs/owncloud.local.key -out /etc/nginx/certs/owncloud.csr  && \
-    /usr/bin/openssl x509 -req -days 365 -in /etc/nginx/certs/owncloud.local.csr -signkey /etc/nginx/certs/owcloud.local.key -out /etc/nginx/certs/owncloud.local.crt
+    command: apk-install openssl ; /usr/bin/openssl genrsa -out ${CERTDIR}/${KEY_NAME}.key 1024 && \
+    /usr/bin/openssl req  -new -newkey rsa:4096 -days 365 -nodes -subj "/C=/ST=/L=/O=/CN=${COMMON_NAME}" -keyout ${CERTDIR}/${KEY_NAME}.key -out ${CERTDIR}/${KEY_NAME}.csr  && \
+    /usr/bin/openssl x509 -req -days 365 -in ${CERTDIR}/${KEY_NAME}.csr -signkey ${CERTDIR}/${KEY_NAME}.key -out ${CERTDIR}/${KEY_NAME}.crt
 
     volumes:
-      - /etc/nginx/certs
+      - ${CERTDIR}
 
 nginx-proxy:
     image: jwilder/nginx-proxy
