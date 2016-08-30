@@ -1,6 +1,3 @@
-env_file:
-     - ./variaveis.env
-
 owncloud:
     image: owncloud
     ports:
