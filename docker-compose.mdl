@@ -6,7 +6,7 @@ owncloud:
       - owncloud-data
     links:
      - mariadb:db
-    hostname: cloud
+    hostname: owncloud
     domainname: owncloud.local
     restart: always
     environment:
@@ -47,6 +47,7 @@ nginx-certs:
 
 nginx-proxy:
     image: jwilder/nginx-proxy
+    hostname: nginx-proxy
     ports:
       - "80:80"
       - "443:443"
@@ -60,7 +61,7 @@ nginx-proxy:
 
 nginx-letsencript:
     image: jrcs/letsencrypt-nginx-proxy-companion
-    hostname: nginx-certs
+    hostname: nginx-letsencript
     volumes:
       - /var/www/html/data
       - /var/www/html/config
