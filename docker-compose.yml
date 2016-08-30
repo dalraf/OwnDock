@@ -18,7 +18,7 @@ mariadb:
     image: mariadb
     hostname: mariadb
     environment:
-      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=${MYSQLPASSWORD}
     volumes_from:
       - mariadb-data
     restart: always
