@@ -36,6 +36,14 @@ owncloud-data:
       - /var/www/html/data
       - /var/www/html/config
 
+nginx-certs
+    image: centurylink/openssl
+    environment:
+      - COMMON_NAME=owncloud.local
+      - KEY_NAME=owncloud.local
+    volumes:
+      - /etc/nginx/certs
+
 nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: nginx-proxy
@@ -44,4 +52,5 @@ nginx-proxy:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /path/to/certs:/etc/nginx/certs
+    volumes_from:
+      - nginx-certs
