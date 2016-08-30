@@ -1,4 +1,5 @@
-env_file: variaveis.env
+env_file:
+     - ./variaveis.env
 
 owncloud:
     image: owncloud
