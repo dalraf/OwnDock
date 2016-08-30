@@ -11,6 +11,8 @@ owncloud:
     restart: always
     environment:
       - VIRTUAL_HOST=${KEY_NAME}
+      - LETSENCRYPT_HOST=${KEY_NAME}
+      - LETSENCRYPT_EMAIL=${EMAIL}
 
 mariadb:
     image: mariadb
