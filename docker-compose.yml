@@ -2,11 +2,12 @@ version: '3'
 services:
     owncloud:
       image: owncloud
-      expose:
-        - 80
+      ports:
+        - 80:80
       networks:
         - redeowncloud
       volumes:
+        - /opt/owncloud/html:/var/www/html/
         - /opt/owncloud/data:/var/www/html/data
         - /opt/owncloud/config:/var/www/html/config
       restart: unless-stopped
@@ -39,7 +40,7 @@ services:
         - /var/run/docker.sock:/tmp/docker.sock:ro
         - /opt/owncloud/html:/usr/share/nginx/html
       ports:
-        - 80:80
+        - 8080:80
         - 443:443
       restart: unless-stopped
       deploy:
