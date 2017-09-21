@@ -17,6 +17,54 @@ services:
           delay: 10s
         restart_policy:
           condition: on-failure
+      environment:
+        - VIRTUAL_HOST=owncloud.local
+        - LETSENCRYPT_HOST=owncloud.local
+        - LETSENCRYPT_EMAIL=owncloud@owncloud.com
+
+    nginx-proxy:
+      image: jwilder/nginx-proxy
+      networks:
+        - redeowncloud
+      volumes:
+        - certs:/etc/nginx/certs
+        - vhost:/etc/nginx/vhost.d
+        - /var/run/docker.sock:/tmp/docker.sock:ro
+        - html:/usr/share/nginx/html
+      ports:
+        - "80:80"
+        - "443:443"
+      restart: unless-stopped
+      deploy:
+        replicas: 1
+        update_config:
+          parallelism: 1
+          delay: 10s
+        restart_policy:
+          condition: on-failure
+    
+    nginx-letsencript:
+      image: jrcs/letsencrypt-nginx-proxy-companion
+      networks:
+        - redeowncloud
+      volumes:
+    volumes:
+      - /var/www/html/data
+      - /var/www/html/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - html:/usr/share/nginx/html
+      restart: unless-stopped
+      deploy:
+        replicas: 1
+        update_config:
+          parallelism: 1
+          delay: 10s
+        restart_policy:
+          condition: on-failure
+    
     mysqlatualizacao:
       image: mariadb
       networks:
