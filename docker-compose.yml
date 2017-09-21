@@ -7,8 +7,8 @@ services:
       networks:
         - redeowncloud
       volumes:
-        - data:/var/www/html/data
-        - config:/var/www/html/config
+        - /opt/owncloud/data:/var/www/html/data
+        - /opt/owncloud/config:/var/www/html/config
       restart: unless-stopped
       deploy:
         replicas: 4
@@ -27,10 +27,10 @@ services:
       networks:
         - redeowncloud
       volumes:
-        - certs:/etc/nginx/certs
-        - vhost:/etc/nginx/vhost.d
+        - /opt/owncloud/certs:/etc/nginx/certs
+        - /opt/owncloud/vhost:/etc/nginx/vhost.d
         - /var/run/docker.sock:/tmp/docker.sock:ro
-        - html:/usr/share/nginx/html
+        - /opt/owncloud/html:/usr/share/nginx/html
       ports:
         - "80:80"
         - "443:443"
@@ -51,10 +51,10 @@ services:
       - /var/www/html/data
       - /var/www/html/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - certs:/etc/nginx/certs
-      - vhost:/etc/nginx/vhost.d
+      - /opt/owncloud/certs:/etc/nginx/certs
+      - /opt/owncloud/vhost:/etc/nginx/vhost.d
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - html:/usr/share/nginx/html
+      - /opt/owncloud/html:/usr/share/nginx/html
       restart: unless-stopped
       deploy:
         replicas: 1
@@ -72,8 +72,8 @@ services:
         - MYSQL_ROOT_PASSWORD=arcom1973
         - MYSQL_DATABASE=owncloud
       volumes:
-        - database:/var/lib/mysql
-        - databaseinit:/docker-entrypoint-initdb.d
+        - /opt/owncloud/database:/var/lib/mysql
+        - /opt/owncloud/databaseinit:/docker-entrypoint-initdb.d
       ports:
         - 3306:3306
       restart: unless-stopped
