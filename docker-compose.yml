@@ -48,7 +48,6 @@ services:
       networks:
         - redeowncloud
       volumes:
-    volumes:
       - /var/www/html/data
       - /var/www/html/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
