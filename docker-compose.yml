@@ -1,0 +1,41 @@
+version: '3'
+services:
+    owncloud:
+      image: owncloud
+      expose:
+        - 80
+      networks:
+        - redeowncloud
+      volumes:
+        - data:/var/www/html/data
+        - config:/var/www/html/config
+      restart: unless-stopped
+      deploy:
+        replicas: 4
+        update_config:
+          parallelism: 2
+          delay: 10s
+        restart_policy:
+          condition: on-failure
+    mysqlatualizacao:
+      image: mariadb
+      networks:
+        - redeowncloud
+      environment:
+        - MYSQL_ROOT_PASSWORD=arcom1973
+        - MYSQL_DATABASE=owncloud
+      volumes:
+        - database:/var/lib/mysql
+        - databaseinit:/docker-entrypoint-initdb.d
+      ports:
+        - 3306:3306
+      restart: unless-stopped
+      deploy:
+        replicas: 1
+        update_config:
+          parallelism: 1
+          delay: 10s
+        restart_policy:
+          condition: on-failure
+networks:
+  redeowncloud:
