@@ -18,6 +18,13 @@ services:
         restart_policy:
           condition: on-failure
       environment:
+        - OWNCLOUD_DB_TYPE=mysql
+        - OWNCLOUD_DB_NAME=owncloud
+        - OWNCLOUD_DB_USERNAME=root
+        - OWNCLOUD_DB_PASSWORD=arcom1973
+        - OWNCLOUD_DB_HOST=mariadb
+        - OWNCLOUD_ADMIN_USERNAME=admin
+        - OWNCLOUD_ADMIN_PASSWORD=arcom1973
         - VIRTUAL_HOST=owncloud.local
         - LETSENCRYPT_HOST=owncloud.local
         - LETSENCRYPT_EMAIL=owncloud@owncloud.com
